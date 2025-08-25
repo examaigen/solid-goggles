@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registruotis – Exam Prep</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+
+  <div class="bg-white p-8 rounded shadow w-full max-w-sm">
+    <h1 class="text-2xl mb-4 font-bold">Registruotis</h1>
+    <form id="register-form" class="space-y-4">
+      <input id="email-input" type="email" placeholder="El. paštas" class="w-full border p-2 rounded" required />
+      <input id="password-input" type="password" placeholder="Slaptažodis" class="w-full border p-2 rounded" required />
+      <input id="confirm-password-input" type="password" placeholder="Pakartokite slaptažodį" class="w-full border p-2 rounded" required />
+      <button type="submit" class="w-full bg-green-600 text-white py-2 rounded">Registruotis</button>
+    </form>
+    <p id="register-error" class="mt-2 text-red-500"></p>
+    <p class="mt-4 text-sm">
+      Jau turite paskyrą? <a href="login.html" class="text-blue-600 hover:underline">Prisijunkite</a>
+    </p>
+  </div>
+
+  <script type="module" src="register.js"></script>
+</body>
+</html>
