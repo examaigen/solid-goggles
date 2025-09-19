@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MokslaiGo</title>
+  <link rel="stylesheet" href="./assets/tailwind.css">
+
+
+  <!-- KaTeX (CSS + JS + auto-render) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js"></script>
+
+  <!-- (Nebūtina, bet patogu) – perpiešti STATINĘ matematiką, kuri jau yra HTML'e atidarant puslapį.
+       Dinaminei matematikai tu jau kviesi renderį iš JS (renderQuestion ir pan.). -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.renderMathInElement) {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$',  right: '$',  display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true},
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+  <style>
+  .active-nav { color:#2563eb; font-weight:600; border-bottom:2px solid #2563eb; padding-bottom:2px; }
+</style>
+
+
+  <script type="module">
+    import { supabase } from './supabaseClient.js';
+    (async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) { location.replace('landing.html'); return; }
+      const { data: p } = await supabase.from('profiles').select('beta_access').eq('id', user.id).single();
+      if (!p?.beta_access) location.replace('landing.html');
+    })();
+  </script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+<app-nav></app-nav>
+
+<main class="flex-1 p-6 max-w-3xl mx-auto">
+    <!-- Dashboard: At a glance -->
+    <section id="dash-cards" class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+      <button id="card-review" class="bg-white p-4 rounded shadow hover:shadow-md text-left">
+        <div class="text-sm text-gray-500">Peržiūros skola</div>
+        <div id="card-review-count" class="text-3xl font-semibold mt-1">—</div>
+       <div class="text-xs text-gray-400 mt-1">Paspauskite pradėti</div>
+      </button>
+         <button id="card-mistakes" class="bg-white p-4 rounded shadow hover:shadow-md text-left">
+        <div class="text-sm text-gray-500">Tik klaidos</div>
+        <div id="card-mistakes-count" class="text-3xl font-semibold mt-1">—</div>
+        <div class="text-xs text-gray-400 mt-1">Per 7 dienas</div>
+      </button>
+      <button id="card-resume" class="bg-white p-4 rounded shadow hover:shadow-md text-left hidden">
+        <div class="text-sm text-gray-500">Tęsti egzaminą</div>
+<div class="text-3xl font-semibold mt-1">Tęsti</div>
+        <div class="text-xs text-gray-400 mt-1">Išsaugota būsena rasta</div>
+      </button>
+    </section>
+
+    <!-- Dashboard: Lists -->
+    <section class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div class="bg-white rounded shadow p-4">
+        <div class="flex items-center justify-between">
+          <h3 class="font-semibold">Skolos pagal potėmes</h3>
+          <a href="special.html" class="text-sm text-blue-600 hover:underline">Daugiau</a>
+        </div>
+        <div id="list-review" class="mt-3 space-y-2 text-sm"></div>
+      </div>
+      <div class="bg-white rounded shadow p-4">
+        <div class="flex items-center justify-between">
+          <h3 class="font-semibold">Klaidos (7 d.)</h3>
+          <a href="special.html" class="text-sm text-blue-600 hover:underline">Daugiau</a>
+        </div>
+       <div id="list-mistakes" class="mt-3 space-y-2 text-sm"></div>
+      </div>
+    </section>
+    <!-- Recent exams -->
+    <section class="bg-white rounded shadow p-4 mt-6">
+      <div class="flex items-center justify-between">
+        <h3 class="font-semibold">Naujausi egzaminai</h3>
+        <a href="profile.html" class="text-sm text-blue-600 hover:underline">Į profilį</a>
+      </div>
+      <div id="list-exams" class="mt-3 space-y-2 text-sm"></div>
+    </section>
+</main>
+
+<!-- 🤖 Floating Chatbot Button + Panel -->
+  <button
+    id="chatbot-btn"
+    class="fixed bottom-6 right-6 w-14 h-14 rounded-full bg-blue-600 text-white text-2xl shadow-lg hover:bg-blue-700 z-50"
+    data-i18n-title="chatbot.ask_placeholder"
+    aria-label="Užduok klausimą"
+  >
+    💬
+  </button>
+
+  <div
+    id="chatbot-panel"
+    class="fixed bottom-24 right-6 w-80 bg-white border rounded-lg shadow-xl hidden z-50 flex flex-col"
+  > 
+    <div class="bg-blue-600 text-white px-4 py-2 rounded-t-lg flex justify-between items-center">
+      <span class="font-semibold">AI Pagalba</span>
+      <button id="chatbot-close" class="text-white font-bold">✕</button>
+    </div>
+    <div id="chatbot-messages" class="p-4 h-60 overflow-y-auto text-sm space-y-2">
+      <p class="text-gray-500">Sveiki! Užduokite klausimą apie šį puslapį.</p>
+    </div>
+    <div class="p-2 border-t flex gap-2">
+      <input
+        id="chatbot-input"
+        type="text"
+        placeholder="Rašykite klausimą..."
+        class="flex-1 px-2 py-1 border rounded text-sm"
+      />
+      <button id="chatbot-send" class="bg-blue-600 text-white px-3 rounded text-sm">Siųsti</button>
+    </div>
+  </div>
+<a href="./index.html" data-brand class="sr-only">Mokslaigo</a>
+
+
+  <!-- Module Scripts -->
+  
+ <script type="module" src="./bootstrap.js"></script>
+  <script type="module" src="./script.js"></script>
+  <script type="module" src="./components/navbar.js"></script>
+  <script type="module" src="./supabaseClient.js"></script>
+<!-- <script type="module" src="profile.js"></script> -->
+<script type="module">
+  import { initChatbot } from './chatbot.js';
+  initChatbot();
+</script>
+</body>
+</html>

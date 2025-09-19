@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mokslaigo</title>
+  <meta name="description" content="Dažniausiai užduodami klausimai ir naudojimo instrukcijos." />
+  <link rel="icon" href="favicon.ico" />
+  <link rel="stylesheet" href="./assets/tailwind.css">
+
+  <style>
+  .active-nav { color:#2563eb; font-weight:600; border-bottom:2px solid #2563eb; padding-bottom:2px; }
+</style>
+<script type="module">
+  import { supabase } from './supabaseClient.js';
+
+  (async () => {
+    // Allow pass if they arrived via landing this tab/session
+    const fromLanding = sessionStorage.getItem('came_from_landing') === '1';
+
+    // Also allow pass if already logged in
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!fromLanding && !user) {
+      window.location.replace('/landing.html');
+    }
+  })();
+</script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+<app-nav></app-nav>
+
+  <main class="flex-1 p-6 max-w-3xl mx-auto">
+    <header class="mb-4">
+      <h1 class="text-3xl font-bold">Dažniausiai užduodami klausimai</h1>
+      <p class="text-gray-600 mt-1">Žemiau rasite naudojimo instrukcijas ir atsakymus į dažniausius klausimus.</p>
+    </header>
+
+    <!-- TAB BAR -->
+    <div class="border-b mb-4">
+      <div class="flex flex-wrap gap-2" role="tablist" aria-label="DUK skyriai">
+        <button class="tab-btn px-3 py-2 rounded-t hover:bg-gray-100" data-tab="egzaminai" role="tab" aria-selected="true">Egzaminai</button>
+        <button class="tab-btn px-3 py-2 rounded-t hover:bg-gray-100" data-tab="paskyra" role="tab" aria-selected="false">Paskyra</button>
+        <button class="tab-btn px-3 py-2 rounded-t hover:bg-gray-100" data-tab="statistika" role="tab" aria-selected="false">Statistika</button>
+        <button class="tab-btn px-3 py-2 rounded-t hover:bg-gray-100" data-tab="technika" role="tab" aria-selected="false">Techniniai klausimai</button>
+        <button class="tab-btn px-3 py-2 rounded-t hover:bg-gray-100" data-tab="privatumas" role="tab" aria-selected="false">Privatumas</button>
+      </div>
+    </div>
+
+    <!-- PANELS -->
+    <section id="tab-egzaminai" role="tabpanel" class="tab-panel">
+      <!-- Greita pradžia -->
+      <div class="bg-white p-5 rounded shadow mb-6">
+        <h2 class="text-xl font-semibold mb-3">Greita pradžia (3 žingsniai)</h2>
+        <ol class="list-decimal pl-5 space-y-2 text-gray-800">
+          <li><strong>Prisijunkite</strong> arba susikurkite paskyrą (viršuje – „Mokymosi platforma“ → Prisijungti/Registruotis).</li>
+          <li><strong>Pasirinkite klasę, dalyką ir potemes</strong>, nustatykite <em>klausimų skaičių</em> ir <em>laiko limitą</em>, tada spauskite <strong>„Pradėti“</strong>.</li>
+          <li><strong>Atsakinėkite</strong> ir pabaigoje spauskite <strong>„Pateikti“</strong>. Rezultatai ir santrauka vėliau – skiltyje <em>Profilis</em>.</li>
+        </ol>
+      </div>
+
+      <div class="space-y-3">
+        <details class="bg-white rounded shadow">
+          <summary class="cursor-pointer px-4 py-3 font-medium">Kaip sukurti treniruotę ar egzaminą?</summary>
+          <div class="px-4 pb-4 text-gray-700">
+            Pagrindiniame puslapyje pasirinkite <strong>klasę</strong>, <strong>dalyką</strong> ir <strong>potemes</strong>.
+            Nustatykite <em>klausimų skaičių</em> ir, jei reikia, <em>laiko limitą</em>. Spauskite <strong>Pradėti</strong>.
+          </div>
+        </details>
+        <details class="bg-white rounded shadow">
+          <summary class="cursor-pointer px-4 py-3 font-medium">Kaip atsakyti į klausimus?</summary>
+          <div class="px-4 pb-4 text-gray-700 space-y-2">
+            <p>Pasirenkamuose klausimuose pažymėkite vieną variantą ir pereikite prie kito. Atviruose (skaitiniuose) klausimuose įrašykite atsakymą nurodyta forma.</p>
+            <p>Jei nustatytas laikas, laikmatis matomas viršuje. Laikui pasibaigus egzaminas pateikiamas automatiškai.</p>
+          </div>
+        </details>
+        <details class="bg-white rounded shadow">
+          <summary class="cursor-pointer px-4 py-3 font-medium">Kur rasti egzamino rezultatus?</summary>
+          <div class="px-4 pb-4 text-gray-700">
+            Skiltyje <strong>Profilis</strong> matysite naujausius 5 egzaminus (senesnius – paspaudus „Show older“).
+            Paspaudus ant egzamino kortelės atsidarys <em>santrauka</em> su data, balais, trukme ir tempu.
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section id="tab-paskyra" role="tabpanel" class="tab-panel hidden">
+      <div class="space-y-3">
+        <details class="bg-white rounded shadow">
+          <summary class="cursor-pointer px-4 py-3 font-medium">Kaip prisijungti ar susikurti paskyrą?</summary>
+          <div class="px-4 pb-4 text-gray-700">
+            Paspauskite <strong>Mokymosi platforma</strong> → <strong>Prisijungti</strong> arba <strong>Registruotis</strong>.
+            Jei pamiršote slaptažodį, prisijungimo lange pasirinkite „Pamiršau slaptažodį“.
+          </div>
+        </details>
+        <details class="bg-white rounded shadow">
+          <summary class="cursor-pointer px-4 py-3 font-medium">Kaip atsijungti?</summary>
+          <div class="px-4 pb-4 text-gray-700">
+            Viršutiniame meniu spauskite <strong>Atsijungti</strong>. Jei nematote mygtuko, atnaujinkite puslapį.
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section id="tab-statistika" role="tabpanel" class="tab-panel hidden">
+      <div class="space-y-3">
+        <details class="bg-white rounded shadow">
+          <summary class="cursor-pointer px-4 py-3 font-medium">Ką rodo „Šilumos žemėlapis“?</summary>
+          <div class="px-4 pb-4 text-gray-700">
+            Spalva (nuo raudonos iki žalios) – tikslumas pagal potemes. Maža linija – paskutinių bandymų tendencija.
+          </div>
+        </details>
+        <details class="bg-white rounded shadow">
+          <summary class="cursor-pointer px-4 py-3 font-medium">Geriausios / blogiausios potėmės</summary>
+          <div class="px-4 pb-4 text-gray-700">
+            Rodo 3 geriausias ir 3 prasčiausias potemes (taikoma minimali bandymų riba, pvz., ≥10).
+          </div>
+        </details>
+        <details class="bg-white rounded shadow">
+          <summary class="cursor-pointer px-4 py-3 font-medium">Pasiekimai</summary>
+          <div class="px-4 pb-4 text-gray-700">
+            <strong>Dienos seka</strong> – kiek dienų iš eilės atlikote bent vieną bandymą. <br>
+            <strong>Greičiausias tobulas egzaminas</strong> – trumpiausia trukmė, per kurią pasiekėte tobulą rezultatą (nepriklausomai nuo klausimų skaičiaus).
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section id="tab-technika" role="tabpanel" class="tab-panel hidden">
+      <div class="space-y-3">
+        <details class="bg-white rounded shadow">
+          <summary class="cursor-pointer px-4 py-3 font-medium">Kodėl nematau klausimų ar temų?</summary>
+          <div class="px-4 pb-4 text-gray-700">
+            Patikrinkite pasirinktą <em>klasę</em> ir <em>dalyką</em>, atnaujinkite puslapį, išvalykite naršyklės talpyklą, arba atsijunkite ir prisijunkite iš naujo.
+          </div>
+        </details>
+        <details class="bg-white rounded shadow">
+          <summary class="cursor-pointer px-4 py-3 font-medium">Kaip pranešti apie klaidą ar netikslumą?</summary>
+          <div class="px-4 pb-4 text-gray-700">
+            Jei įjungta atsiliepimų funkcija – naudokite ją. Kitu atveju – parašykite el. paštu (nurodysime programėlėje).
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section id="tab-privatumas" role="tabpanel" class="tab-panel hidden">
+      <div class="space-y-3">
+        <details class="bg-white rounded shadow">
+          <summary class="cursor-pointer px-4 py-3 font-medium">Duomenų valdymas</summary>
+          <div class="px-4 pb-4 text-gray-700">
+            Profilyje galite ištrinti praktikos bandymus (<em>question_attempts</em>). Dėl papildomų taisyklių informuosime programėlėje.
+          </div>
+        </details>
+        <details class="bg-white rounded shadow">
+          <summary class="cursor-pointer px-4 py-3 font-medium">Viešumas</summary>
+          <div class="px-4 pb-4 text-gray-700">
+            Jūsų rezultatai yra privatūs, nebent aiškiai pasirenkate dalintis santrauka (jei tokia parinktis bus įjungta).
+          </div>
+        </details>
+      </div>
+    </section>
+  </main>
+
+<footer class="text-center text-xs text-gray-500 py-6">© <span id="y"></span> Mokslaigo</footer>
+
+  <script type="module" src="./bootstrap.js"></script>
+  <script type="module" src="./script.js"></script>
+  <script type="module" src="./components/navbar.js"></script>
+  <script type="module" src="./faq.js"></script>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+  <style>
+    /* aktyvios kortelės kraštelis */
+    .tab-btn[aria-selected="true"] { border-bottom: 2px solid #2563eb; color:#2563eb; }
+  </style>
+</body>
+</html>

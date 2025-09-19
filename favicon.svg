@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 36 36">
+  <rect x="0" y="0" width="36" height="36" rx="8" fill="#ffffff"/>
+  <path d="M6 26V10h4l4 7 4-7h4v16h-4V17l-4 7-4-7v9H6z" fill="#111827"/>
+  <text x="20.5" y="26.5" font-size="12" font-family="Inter, system-ui, -apple-system, Segoe UI, sans-serif"
+        fill="#4f46e5" font-weight="700">Go</text>
+</svg>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MokslaiGo</title>
+  <link rel="stylesheet" href="./assets/tailwind.css">
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+
+  <div class="bg-white p-8 rounded shadow w-full max-w-sm">
+    <a href="./index.html" data-brand class="block text-center text-gray-500 mb-2"></a>
+
+    <h1 class="text-2xl mb-4 font-bold" data-i18n="auth.sign_up">Registruotis</h1>
+    <form id="register-form" class="space-y-4">
+      <input id="email-input" type="email" class="w-full border p-2 rounded"
+             placeholder="El. paštas" data-i18n-ph="auth.email" required />
+      <input id="password-input" type="password" class="w-full border p-2 rounded"
+             placeholder="Slaptažodis" data-i18n-ph="auth.password" required />
+      <input id="confirm-password-input" type="password" class="w-full border p-2 rounded"
+             placeholder="Pakartokite slaptažodį" data-i18n-ph="auth.password_confirm" required />
+      <button type="submit" class="w-full bg-green-600 text-white py-2 rounded"
+              data-i18n="auth.sign_up">Registruotis</button>
+    </form>
+    <p id="register-error" class="mt-2 text-red-500"></p>
+    <p class="mt-4 text-sm">
+      <span data-i18n="auth.have_account">Jau turite paskyrą?</span>
+      <a href="login.html" class="text-blue-600 hover:underline" data-i18n="auth.sign_in">Prisijunkite</a>
+    </p>
+  </div>
+
+ <!-- Module order: bootstrap → shared script → page logic -->
+  <script type="module" src="./bootstrap.js"></script>
+  <script type="module" src="./register.js"></script>
+</body>
+</html>
+
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MokslaiGo</title>
+  <link rel="stylesheet" href="./assets/tailwind.css">
+
+  <script type="module" src="./services/gate.js"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+<app-nav></app-nav>
+
+  <main class="flex-1 p-6 max-w-4xl mx-auto">
+    <h1 class="text-2xl font-bold mb-4" data-i18n="practice.heading">
+      Pasirinkite dalyką, klasę ir potemes
+    </h1>
+
+    <!-- Subject selection -->
+    <section id="subject-view" class="mb-6">
+      <h2 class="font-semibold mb-2" data-i18n="practice.subject">Dalykas</h2>
+      <div id="subjects-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3"></div>
+    </section>
+
+    <!-- Class selection -->
+    <section id="class-section" class="mb-6 hidden">
+         <button id="back-to-subjects" class="mb-3 text-blue-600 hover:underline">&larr; Atgal į dalykus</button>
+      <h2 class="font-semibold mb-2" data-i18n="practice.class">Klasė</h2>
+
+      <div id="class-buttons" class="flex gap-2 flex-wrap"></div>
+    </section>
+
+    <!-- Subtopics selection -->
+    <section id="subtopics-section" class="mb-6 hidden">
+     <button id="back-to-classes" class="mb-3 text-blue-600 hover:underline">&larr; Atgal į klases</button>
+      <h2 class="font-semibold mb-2" data-i18n="practice.subtopics">Potemės</h2>
+      <div id="subtopics-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2"></div>
+    </section>
+
+    <!-- Start -->
+    <section id="start-section" class="mb-10 hidden">
+     <button id="start-btn" class="px-4 py-2 bg-blue-600 text-white rounded" data-i18n="practice.start">
+        Pradėti
+      </button>
+    </section>
+  </main>
+
+  <script type="module" src="./bootstrap.js"></script>
+  <script type="module" src="./script.js"></script>
+  <script type="module" src="./components/navbar.js"></script>
+  <script type="module" src="./supabaseClient.js"></script>
+  <script type="module" src="./practice.js"></script>
+  <script type="module" src="./config/skill.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MokslaiGo</title>
+  <link rel="stylesheet" href="./assets/tailwind.css">
+
+  <script type="module" src="./services/gate.js"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+<app-nav></app-nav>
+
+  <main class="flex-1 p-6 max-w-4xl mx-auto">
+    <header class="mb-6">
+      <h1 class="text-3xl font-bold" data-i18n="special.heading">Specializuotos užduotys</h1>
+      <p class="text-gray-600 mt-1" data-i18n="special.subheading">Greitos treniruotės ir tikslinės praktikos režimai.</p>
+    </header>
+
+    <div class="grid md:grid-cols-2 gap-4">
+      <!-- Klaidos -->
+      <section class="bg-white rounded shadow p-5">
+        <h2 class="text-xl font-semibold" data-i18n="special.mistakes_title">„Tik klaidos“ (pastarosios 7 d.)</h2>
+        <p class="text-gray-700 mt-2" data-i18n="special.mistakes_desc">
+          Treniruočių seansas su klausimais, kuriuos <em>neseniai suklydote</em>, pagal pasirinktą potėmę.
+        </p>
+        <button id="start-mistakes" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700" data-i18n="common.start">Pradėti</button>
+      </section>
+
+      <!-- Peržiūros skola -->
+      <section class="bg-white rounded shadow p-5">
+        <h2 class="text-xl font-semibold" data-i18n="special.review_title">Peržiūros skola (spaced repetition)</h2>
+        <p class="text-gray-700 mt-2" data-i18n="special.review_desc">
+          Treniruočių seansas su klausimais, kurių atėjo <em>pakartojimo laikas</em>.
+        </p>
+        <button id="start-review" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700" data-i18n="common.start">Pradėti</button>
+      </section>
+
+      <!-- Greitas egzaminas -->
+      <section class="bg-white rounded shadow p-5">
+        <h2 class="text-xl font-semibold" data-i18n="special.quick_exam_title">Greitas egzaminas</h2>
+        <p class="text-gray-700 mt-2" data-i18n="special.quick_exam_desc">
+          Peršokite tiesiai į egzamino simuliaciją. Pasirinksite dalyką/potemes ir trukmę.
+        </p>
+        <button id="start-exam" class="mt-4 px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700" data-i18n="special.open_exam">
+          Atidaryti egzamino simuliaciją
+        </button>
+      </section>
+
+      <!-- Ateities režimas / rezervas -->
+      <section class="bg-white rounded shadow p-5">
+        <h2 class="text-xl font-semibold" data-i18n="special.mixed_title">Mišri treniruotė pagal silpnas potemes</h2>
+        <p class="text-gray-700 mt-2" data-i18n="special.mixed_desc">
+          (Rezervuota) Automatiškai parinksime potemes, kuriose jūsų tikslumas mažiausias.
+        </p>
+        <button disabled class="mt-4 px-4 py-2 border rounded text-gray-400 cursor-not-allowed" data-i18n="common.soon">Greitai</button>
+      </section>
+
+            <section class="bg-white rounded shadow p-5">
+        <h2 class="text-xl font-semibold" data-i18n="special.mixed_title">Mišri treniruotė pagal silpnas potemes</h2>
+        <p class="text-gray-700 mt-2" data-i18n="special.mixed_desc">
+          Blitz sprendimai(bus pridėta greitu metu).
+        </p>
+        <button disabled class="mt-4 px-4 py-2 border rounded text-gray-400 cursor-not-allowed" data-i18n="common.soon">Greitai</button>
+      </section>
+    </div>
+        <!-- Dynamic results (subjects → subtopics with counts) -->
+    <section id="results" class="bg-white rounded shadow p-5 mt-6 hidden">
+      <div class="flex items-center justify-between">
+          <h2 id="results-title" class="text-xl font-semibold" data-i18n="special.results">Rezultatai</h2>
+        <button id="results-clear" class="text-sm text-gray-500 hover:text-gray-700" data-i18n="common.clear">Išvalyti</button>
+      </div>
+       <p id="results-note" class="text-gray-600 mt-1" data-i18n="special.results_note"></p>
+      <div id="results-grid" class="mt-4 grid sm:grid-cols-2 lg:grid-cols-3 gap-3"></div>
+    </section>
+  </main>
+
+  <footer class="text-center text-xs text-gray-500 py-6">© <span id="y"></span> Mokslaigo</footer>
+
+  <script type="module" src="./bootstrap.js"></script>
+  <script type="module" src="./script.js"></script>
+  <script type="module" src="./components/navbar.js"></script>
+  <script type="module" src="./special.js"></script>
+  <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+</body>
+</html>

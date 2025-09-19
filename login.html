@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Prisijungti - Mokslaigo</title>
+  <link rel="stylesheet" href="./assets/tailwind.css">
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+
+  <div class="bg-white p-8 rounded shadow w-full max-w-sm">
+    <!-- Brand placeholder (filled from script.js) -->
+    <a href="./index.html" data-brand class="block text-center text-gray-500 mb-2"></a>
+
+    <!-- Heading auto-translated by data-i18n -->
+    <h1 class="text-2xl mb-4 font-bold" data-i18n="auth.sign_in">Prisijunkite</h1>
+
+    <form id="login-form" class="space-y-4">
+      <div>
+        <label for="login-email" class="block text-sm font-medium text-gray-700" data-i18n="auth.email"></label>
+        <input
+          id="login-email"
+          name="email"
+          type="email"
+          class="mt-1 block w-full rounded border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+          autocomplete="email"
+          placeholder="el.pastas@pavyzdys.lt"
+          data-i18n-ph="auth.email"
+          required
+        />
+      </div>
+
+      <div>
+        <label for="login-password" class="block text-sm font-medium text-gray-700" data-i18n="auth.password">Slaptažodis</label>
+        <input
+          id="login-password"
+            name="password"
+          type="password"
+          class="mt-1 block w-full rounded border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+          autocomplete="current-password"
+          placeholder="Jūsų slaptažodis"
+          data-i18n-ph="auth.password"
+          required
+        />
+      </div>
+
+      <button
+        id="login-btn"
+        type="submit"
+        class="w-full inline-flex justify-center rounded-md bg-indigo-600 px-4 py-2 text-white font-medium hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        data-i18n="auth.sign_in"
+        data-i18n-title="auth.sign_in"
+      >Prisijungti</button>
+       <p id="login-error" class="mt-2 text-sm text-red-600" role="alert" aria-live="polite"></p>
+        <a href="./register.html" class="text-indigo-600 hover:text-indigo-700" data-i18n="auth.sign_up"></a>
+      </p>
+    </form>
+    <a href="./register.html" id="go-register" class="text-blue-600 hover:underline">Registruotis</a>
+   </div>
+ 
+  <!-- Load as ES modules: bootstrap first, then shared script -->
+   <script type="module" src="./bootstrap.js"></script>
+<script type="module" src="./supabaseClient.js"></script>
+<script type="module" src="./login.js"></script>
+<div id="mg-footer"></div>
+</body>
+</html>
